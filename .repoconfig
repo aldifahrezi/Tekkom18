@@ -1,0 +1,67 @@
+;=======================================================================================
+; Hi! This is repository configuration file.
+; Anything prefixed by ';' is treated as comment.
+; This file dictates what actions are available on the repository.
+; (Press that "Actions" button on the bottom-left side of the repository browser.)
+;
+; If this is your own repository, you can configure this file to suit your needs.
+; 
+; Each action starts with [actionHandle]
+; Afterwards, you can pass the following parameters:
+; * displayName:
+;     [OPTIONAL] The text to display on the "Actions" button.
+;     If you don't specify this, this action won't be listed in the "Actions button",
+;     but can still be called using AJAX call.
+; * requiredRole:
+;     [OPTIONAL] Minimum course role to be able to execute the action
+;     If none specified, all course participants assigned to the repo can execute it.
+; * simulatorHandle:
+;     [OPTIONAL] What simulator handle to be used (e.g. 'minui-answer-ferdinand')
+;     If specified, the simulator page will be displayed in a new tab.
+; * arguments[]:
+;     [OPTIONAL] list of arguments to be used, this will be set as environment
+;     variable before the commands are executed, so you can call it in the `commands[]`
+;     section like this: "$argumentName". 
+; * commands[]:
+;     [OPTIONAL] list of bash commands to be executed. If more than one command is
+;     given, the whole command will be executed as: `CMD1 && CMD2 && ...`
+; * isSeparator:
+;     [OPTIONAL] If this is set to "true", all other parameters will be ignored and
+;     a separator line will be displayed in its place.
+;=======================================================================================
+
+[recompileModel]
+displayName = Compile model
+requiredRole = student
+commands[] = java JLex.Main Scanner.lex
+commands[] = rm Yylex.java
+commands[] = mv Scanner.lex.java Yylex.java
+commands[] = javac *.java
+
+[compileAndDisplayResult]
+displayName = Test model: compile
+requiredRole = student
+simulatorHandle = minui-compile-only
+
+[compileAndSimulateRuntime]
+displayName = Test model: compile and run
+requiredRole = student
+simulatorHandle = minui-compile-simulate-runtime
+
+[--separator01--]
+isSeparator = true
+
+[runtimeSimulator]
+displayName = Machine code simulator
+requiredRole = student
+simulatorHandle = minui-simulate-machinecode
+
+;=======================================================================================
+; Helper actions (not displayed in the action buttons)
+; Don't change these -- these will be called by the simulator.
+
+[helperCompile]
+requiredRole = student
+arguments[] = sourceCode
+commands[] = echo "$sourceCode" | java parser
+
