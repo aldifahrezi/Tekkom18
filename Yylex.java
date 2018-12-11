@@ -1,7 +1,7 @@
 /*
     IKI40800 Parser
-    A Sasmito Adibowo – 1299000029
-	Bayu Adianto Prabowo – 1200000187
+    A Sasmito Adibowo ï¿½ 1299000029
+	Bayu Adianto Prabowo ï¿½ 1200000187
 */
 import java.lang.System;
 import java.io.*;
