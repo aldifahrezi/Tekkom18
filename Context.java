@@ -213,7 +213,6 @@ class Context
             case 26:
                 symbolHash.find(currentStr).setIdKind(Bucket.FUNCTION);
                 callStack.push(currentStr);
-                System.out.println("Pushed " + currentStr);
                 symbolHash.find(currentStr).setParameters(new LinkedList<Bucket>());
                 break;
             case 27:
