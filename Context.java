@@ -38,7 +38,6 @@ class Context
     {
         boolean error = false;
 
-        //System.out.println("C" + ruleNo);
         switch(ruleNo)
         {
             case 0:
@@ -199,7 +198,6 @@ class Context
                 break;
             case 22:
                 symbolHash.find(currentStr).setLLON(lexicalLevel, orderNumber);
-                // Ga yakin bener.
                 symbolHash.find(currentStr).setBaseAddress(Generate.cell);
                 break;
             case 23:
@@ -211,10 +209,6 @@ class Context
                 symbolHash.find(currentStr).setParameters(new LinkedList<Bucket>());
                 break;
             case 25:
-                // PARAMS
-                // Bucket currentParam = symbolHash.find(currentStr);
-                // String callName = callStack.peek();
-                // symbolHash.find(callName).addParameter(currentParam);
                 break;
             case 26:
                 symbolHash.find(currentStr).setIdKind(Bucket.FUNCTION);
@@ -223,9 +217,6 @@ class Context
                 symbolHash.find(currentStr).setParameters(new LinkedList<Bucket>());
                 break;
             case 27:
-                // PARAMS
-                // C(51);  // Balik order number
-                // C(2); // Decrement lexical level
                 break;
             case 28:
                 if (symbolHash.find((String)symbolStack.peek()).getIdKind() != Bucket.PROCEDURE) {
@@ -243,28 +234,10 @@ class Context
                 }
                 break;
             case 30:
-                // PARAMS
-                // numberOfArgsStack.push(0);
                 break;
             case 31:
-                // PARAMS
-                // Integer currentNumberOfArgs = numberOfArgsStack.peek();
-                // Integer paramType = symbolHash.find((String)symbolStack.peek()).getParameters().get(currentNumberOfArgs - 1).getIdType();
-                // Integer argumentType = ((Integer)typeStack.peek()).intValue();
-
-                // if (paramType != argumentType) {
-                //     System.out.println("Type mismatch at parameter number: " + currentNumberOfArgs + " at line:" + currentLine + ": " + currentStr);
-                //     errorCount++;
-                // }
                 break;
             case 32:
-                // PARAMS
-                // Integer currentNumberOfArgs = numberOfArgs.pop();
-                // Integer numberOfParams = symbolHash.find((String)symbolStack.peek()).getParameters().size();
-                // if (currentNumberOfArgs != numberOfParams) {
-                //     System.out.println("Number of parameters mismatched for " + subroutineName + ", found:" + currentNumberOfArgs + " expected: " + numberOfParams);
-                //     errorCount++;
-                // }
                 break;
             case 33:
                 if (symbolHash.find((String)symbolStack.peek()).getIdKind() != Bucket.FUNCTION) {
@@ -273,10 +246,6 @@ class Context
                 }
                 break;
             case 34:
-                // PARAMS
-                // Integer currentNumberOfArgs = numberOfArgsStack.pop();
-                // currentNumberOfArgs++;
-                // numberOfArgsStack.push(currentNumberOfArgs);
                 break;
             case 35:
                 // Skip since we can get it using Bucket.getParameters.size()
@@ -289,7 +258,6 @@ class Context
                     System.out.println("Unmatched return type at line " + currentLine + ": " + currentStr);
                     errorCount++;
                 }
-                // NOT SURE
                 typeStack.push(new Integer(expressionType));
                 break;
             case 37:
@@ -335,8 +303,6 @@ class Context
     private boolean printSymbols;
     public int errorCount;
     
-    // Custom
+    // Added
     public static Stack<String> callStack;
-    // PARAMS
-    // public static Stack<Integer> numberOfArgsStack;
 }

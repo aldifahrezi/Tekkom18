@@ -134,7 +134,7 @@ class Bucket
         return nextBucket;
     }
 
-    // Custom
+    // Added
     public LinkedList<Bucket> getParameters() {
         return this.parameters;
     }
@@ -171,7 +171,7 @@ class Bucket
     private int idKind;
     private Bucket nextBucket;
 
-    // CUSTOM
+    // Added
     private LinkedList<Bucket> parameters;
     private int baseAddress;
 }

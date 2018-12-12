@@ -700,20 +700,6 @@ class Generate
                     HMachine.memory[cell] = HMachine.BR;
                     cell = cell + 1;
                 }
-                // PARAMS
-                // else {
-                //     HMachine.memory[cell] = HMachine.PUSHMT;
-                //     HMachine.memory[cell+1] = HMachine.PUSH;
-                //     HMachine.memory[cell+2] = numberOfParams + 1;
-                //     HMachine.memory[cell+3] = HMachine.SUB;
-                //     HMachine.memory[cell+4] = HMachine.FLIP;
-                //     HMachine.memory[cell+5] = HMachine.STORE;
-                //     HMachine.memory[cell+6] = HMachine.PUSH;
-                //     HMachine.memory[cell+7] = numberOfParams - 1;
-                //     HMachine.memory[cell+8] = HMachine.POP;
-                //     HMachine.memory[cell+9] = HMachine.BR;
-                //     cell = cell + 10;
-                // }
                 break;
             }
 
@@ -726,35 +712,6 @@ class Generate
                     HMachine.memory[cell+1] = HMachine.BR;
                     cell = cell + 2;
                 }
-                // PARAMS
-                // else if(numberOfParams == 1) {
-                //     HMachine.memory[cell] = HMachine.PUSHMT;
-                //     HMachine.memory[cell+1] = HMachine.PUSH;
-                //     HMachine.memory[cell+2] = 3;
-                //     HMachine.memory[cell+3] = HMachine.SUB;
-                //     HMachine.memory[cell+4] = HMachine.FLIP;
-                //     HMachine.memory[cell+5] = HMachine.STORE;
-                //     HMachine.memory[cell+6] = HMachine.BR;
-                //     cell = cell + 7;
-                // } else {
-                //     HMachine.memory[cell] = HMachine.PUSHMT;
-                //     HMachine.memory[cell+1] = HMachine.PUSH;
-                //     HMachine.memory[cell+2] = numberOfParams + 2;
-                //     HMachine.memory[cell+3] = HMachine.SUB;
-                //     HMachine.memory[cell+4] = HMachine.FLIP;
-                //     HMachine.memory[cell+5] = HMachine.STORE;
-                //     HMachine.memory[cell+6] = HMachine.PUSHMT;
-                //     HMachine.memory[cell+7] = HMachine.PUSH;
-                //     HMachine.memory[cell+8] = numberOfParams;
-                //     HMachine.memory[cell+9] = HMachine.SUB;
-                //     HMachine.memory[cell+10] = HMachine.FLIP;
-                //     HMachine.memory[cell+11] = HMachine.STORE;
-                //     HMachine.memory[cell+12] = HMachine.PUSH;
-                //     HMachine.memory[cell+13] = numberOfParams - 2;
-                //     HMachine.memory[cell+14] = HMachine.POP;
-                //     HMachine.memory[cell+15] = HMachine.BR;
-                //     cell = cell + 16;
-                // }
                 break;
             case 44:
                 HMachine.memory[cell] = HMachine.PUSH;
