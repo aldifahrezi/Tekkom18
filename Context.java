@@ -12,6 +12,7 @@
  * @author: DAJI Group (Dalton E. Pelawi & Jimmy)
  */
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 class Context
@@ -21,6 +22,7 @@ class Context
         lexicalLevel = -1;
         orderNumber = 0;
         symbolHash = new Hash(HASH_SIZE);
+        callStack = new Stack<String>();
         symbolStack = new Stack();
         typeStack = new Stack();
         printSymbols = false;
@@ -195,6 +197,108 @@ class Context
                         break;
                 }
                 break;
+            case 22:
+                symbolHash.find(currentStr).setLLON(lexicalLevel, orderNumber);
+                // Ga yakin bener.
+                symbolHash.find(currentStr).setBaseAddress(Generate.cell);
+                break;
+            case 23:
+                symbolHash.find(currentStr).setIdType(((Integer)typeStack.peek()).intValue());
+                break;
+            case 24:
+                symbolHash.find(currentStr).setIdKind(Bucket.PROCEDURE);
+                callStack.push(currentStr);
+                symbolHash.find(currentStr).setParameters(new LinkedList<Bucket>());
+                break;
+            case 25:
+                // PARAMS
+                // Bucket currentParam = symbolHash.find(currentStr);
+                // String callName = callStack.peek();
+                // symbolHash.find(callName).addParameter(currentParam);
+                break;
+            case 26:
+                symbolHash.find(currentStr).setIdKind(Bucket.FUNCTION);
+                callStack.push(currentStr);
+                System.out.println("Pushed " + currentStr);
+                symbolHash.find(currentStr).setParameters(new LinkedList<Bucket>());
+                break;
+            case 27:
+                // PARAMS
+                // C(51);  // Balik order number
+                // C(2); // Decrement lexical level
+                break;
+            case 28:
+                if (symbolHash.find((String)symbolStack.peek()).getIdKind() != Bucket.PROCEDURE) {
+                    System.out.println("Procedure expected or is not fully defined at line " + currentLine + ": " + currentStr);
+                    errorCount++;
+                }
+                break;
+            case 29:
+                LinkedList<Bucket> parameters =  symbolHash.find((String)symbolStack.peek()).getParameters();                
+                Integer actualNumberOfParams = (parameters == null ? 0 : parameters.size());
+                if (parameters != null && parameters.size() != 0) {
+                    System.out.println("Procedure or function expected zero parameters at line " + currentLine + ": " + currentStr);
+                    System.out.println("But " + actualNumberOfParams + " parameters was found");
+                    errorCount++;
+                }
+                break;
+            case 30:
+                // PARAMS
+                // numberOfArgsStack.push(0);
+                break;
+            case 31:
+                // PARAMS
+                // Integer currentNumberOfArgs = numberOfArgsStack.peek();
+                // Integer paramType = symbolHash.find((String)symbolStack.peek()).getParameters().get(currentNumberOfArgs - 1).getIdType();
+                // Integer argumentType = ((Integer)typeStack.peek()).intValue();
+
+                // if (paramType != argumentType) {
+                //     System.out.println("Type mismatch at parameter number: " + currentNumberOfArgs + " at line:" + currentLine + ": " + currentStr);
+                //     errorCount++;
+                // }
+                break;
+            case 32:
+                // PARAMS
+                // Integer currentNumberOfArgs = numberOfArgs.pop();
+                // Integer numberOfParams = symbolHash.find((String)symbolStack.peek()).getParameters().size();
+                // if (currentNumberOfArgs != numberOfParams) {
+                //     System.out.println("Number of parameters mismatched for " + subroutineName + ", found:" + currentNumberOfArgs + " expected: " + numberOfParams);
+                //     errorCount++;
+                // }
+                break;
+            case 33:
+                if (symbolHash.find((String)symbolStack.peek()).getIdKind() != Bucket.FUNCTION) {
+                    System.out.println("Function expected or is not fully defined at line " + currentLine + ": " + currentStr);
+                    errorCount++;
+                }
+                break;
+            case 34:
+                // PARAMS
+                // Integer currentNumberOfArgs = numberOfArgsStack.pop();
+                // currentNumberOfArgs++;
+                // numberOfArgsStack.push(currentNumberOfArgs);
+                break;
+            case 35:
+                // Skip since we can get it using Bucket.getParameters.size()
+                break;
+            case 36:
+                Integer expressionType = ((Integer)typeStack.peek()).intValue();
+                Integer functionType = symbolHash.find((String)symbolStack.peek()).getIdType();
+                
+                if (expressionType != functionType) {
+                    System.out.println("Unmatched return type at line " + currentLine + ": " + currentStr);
+                    errorCount++;
+                }
+                // NOT SURE
+                typeStack.push(new Integer(expressionType));
+                break;
+            case 37:
+                if (symbolHash.find(currentStr).getIdKind() == Bucket.FUNCTION) {
+                    C(33);
+                } else {
+                    C(20);
+                }
+                break;
         }
     }
 
@@ -224,10 +328,15 @@ class Context
     public static int lexicalLevel;
     public static int orderNumber;
     public static Hash symbolHash;
-    private Stack symbolStack;
+    public static Stack symbolStack;
     private Stack typeStack;
     public static String currentStr;
     public static int currentLine;
     private boolean printSymbols;
     public int errorCount;
+    
+    // Custom
+    public static Stack<String> callStack;
+    // PARAMS
+    // public static Stack<Integer> numberOfArgsStack;
 }

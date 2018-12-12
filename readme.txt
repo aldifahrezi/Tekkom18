@@ -50,3 +50,6 @@ To save and execute the target code, type in:
 
 Well, that's all about it. It's up to you now.
 Have fun!
+
+How to run:
+java -classpath "C:\Users\Aldi\Documents\Programming\Experiments\Academic Workspace\Tekom\Tugas" parser < tc/sample.in > tmptc.in && java -classpath "C:\Users\Aldi\Documents\Programming\Experiments\Academic Workspace\Tekom\Tugas" Machine tmptc.in

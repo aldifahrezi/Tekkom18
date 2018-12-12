@@ -23,7 +23,8 @@ class Generate
           boundStack        = new int[stackSize], // subscript out of range routine
           returnAddrStack   = new int[stackSize]; // fixing up/backpatching return address
 
-    int ll, on, top, addr, kode, cell;
+    int ll, on, top, addr, kode;
+    static int cell;
     private String currConst;
 
     public Generate()
@@ -692,15 +693,100 @@ class Generate
                 cell = cell + 29;
                 break;
 
+            case 42: {
+                String callName = Context.callStack.peek();
+                Integer numberOfParams = Context.symbolHash.find(callName).getParameters().size();
+                if (numberOfParams == 0) {
+                    HMachine.memory[cell] = HMachine.BR;
+                    cell = cell + 1;
+                }
+                // PARAMS
+                // else {
+                //     HMachine.memory[cell] = HMachine.PUSHMT;
+                //     HMachine.memory[cell+1] = HMachine.PUSH;
+                //     HMachine.memory[cell+2] = numberOfParams + 1;
+                //     HMachine.memory[cell+3] = HMachine.SUB;
+                //     HMachine.memory[cell+4] = HMachine.FLIP;
+                //     HMachine.memory[cell+5] = HMachine.STORE;
+                //     HMachine.memory[cell+6] = HMachine.PUSH;
+                //     HMachine.memory[cell+7] = numberOfParams - 1;
+                //     HMachine.memory[cell+8] = HMachine.POP;
+                //     HMachine.memory[cell+9] = HMachine.BR;
+                //     cell = cell + 10;
+                // }
+                break;
+            }
+
+            case 43:
+                String callName = Context.callStack.peek();
+                Integer numberOfParams = Context.symbolHash.find(callName).getParameters().size();
+                
+                if(numberOfParams == 0) {
+                    HMachine.memory[cell] = HMachine.FLIP;
+                    HMachine.memory[cell+1] = HMachine.BR;
+                    cell = cell + 2;
+                }
+                // PARAMS
+                // else if(numberOfParams == 1) {
+                //     HMachine.memory[cell] = HMachine.PUSHMT;
+                //     HMachine.memory[cell+1] = HMachine.PUSH;
+                //     HMachine.memory[cell+2] = 3;
+                //     HMachine.memory[cell+3] = HMachine.SUB;
+                //     HMachine.memory[cell+4] = HMachine.FLIP;
+                //     HMachine.memory[cell+5] = HMachine.STORE;
+                //     HMachine.memory[cell+6] = HMachine.BR;
+                //     cell = cell + 7;
+                // } else {
+                //     HMachine.memory[cell] = HMachine.PUSHMT;
+                //     HMachine.memory[cell+1] = HMachine.PUSH;
+                //     HMachine.memory[cell+2] = numberOfParams + 2;
+                //     HMachine.memory[cell+3] = HMachine.SUB;
+                //     HMachine.memory[cell+4] = HMachine.FLIP;
+                //     HMachine.memory[cell+5] = HMachine.STORE;
+                //     HMachine.memory[cell+6] = HMachine.PUSHMT;
+                //     HMachine.memory[cell+7] = HMachine.PUSH;
+                //     HMachine.memory[cell+8] = numberOfParams;
+                //     HMachine.memory[cell+9] = HMachine.SUB;
+                //     HMachine.memory[cell+10] = HMachine.FLIP;
+                //     HMachine.memory[cell+11] = HMachine.STORE;
+                //     HMachine.memory[cell+12] = HMachine.PUSH;
+                //     HMachine.memory[cell+13] = numberOfParams - 2;
+                //     HMachine.memory[cell+14] = HMachine.POP;
+                //     HMachine.memory[cell+15] = HMachine.BR;
+                //     cell = cell + 16;
+                // }
+                break;
+            case 44:
+                HMachine.memory[cell] = HMachine.PUSH;
+                HMachine.memory[cell + 1] = cell + 5;
+                HMachine.memory[cell + 2] = HMachine.PUSH;
+                HMachine.memory[cell + 3] = Context.symbolHash.find((String)Context.symbolStack.peek()).getBaseAddress();
+                HMachine.memory[cell + 4] = HMachine.BR;
+                cell += 5;
+                break;
+            case 45:
+                break;
+            case 46:
+                break;
+            case 47:
+                HMachine.memory[cell] = HMachine.PUSH;
+                HMachine.memory[cell + 1] = cell + 5;
+                HMachine.memory[cell + 2] = HMachine.PUSH;
+                HMachine.memory[cell + 3] = Context.symbolHash.find((String)Context.symbolStack.peek()).getBaseAddress();
+                HMachine.memory[cell + 4] = HMachine.BR;
+                cell += 5;
+                break;
+            case 48:
+                break;
             // R49 : construct instructions similar to R31
             //       for non-function identifier
             case 49:
                 kode = Context.symbolHash.find(Context.currentStr).getIdKind();
 
                 if (kode == Bucket.FUNCTION)
-                    System.out.println("Unable to perform function implemetation.");
+                    R(46);
                 else
-                    obtainAddress();
+                    R(31);
 
                 break;
 
@@ -710,12 +796,9 @@ class Generate
                 kode = Context.symbolHash.find(Context.currentStr).getIdKind();
 
                 if (kode == Bucket.FUNCTION)
-                    System.out.println("Unable to perform function implemetation.");
+                    R(47);
                 else
-                {
-                   HMachine.memory[cell] = HMachine.LOAD;
-                   cell = cell + 1;
-                }
+                    R(32);
 
                 break;
 
