@@ -1,0 +1,158 @@
+{
+    var a : integer
+    proc foo {
+        var b : integer;
+        b := 0
+        repeat
+            a := a + 1
+        until a > b
+        put a
+    }
+    ;
+    a := -5
+    foo
+}
+
+{
+    integer func ping = 1;
+}
+
+{
+    ;
+    integer func pong = {;;1};
+}
+
+{
+    integer func ping = 1;
+    integer func pong  = ping * 2;
+    put pong
+}
+
+{
+    proc boom {
+        put "boom!"
+    }
+    ;
+    boom
+}
+
+{
+    proc nonboom {
+        ;
+        put "nonboom!"
+    }
+    ;
+    nonboom
+}
+
+{
+    boolean func chck = {
+        var a : integer
+        var f : integer
+        ;
+        a := 10
+        f := 20
+        ;
+        a < f
+    }
+    if chck then 
+        put "success"
+    end if
+}
+
+{
+    var a : integer;
+    integer func read_test = {
+        var r : integer
+        ;
+        get r
+        ;
+        r
+    }
+    ;
+    a := read_test
+    put a
+}
+
+{
+    var test : integer;
+    proc test1 {
+        var test : integer;
+        test := 1
+        put test
+    }
+    proc test2 {
+        var test : integer;
+        test := 2
+        put test
+    }
+    test := 3
+    put test
+    test2
+    test1
+}
+
+{
+    var test : integer;
+    proc test1 {
+        ;
+        test := 1
+        put test
+    }
+    proc test2 {
+        var test : integer;
+        test := 2
+        put test
+    }
+    test := 3
+    test1
+    put test
+    test2
+    put test
+}
+
+{
+    var test : integer
+    ;
+    proc xyz {
+        ;
+        proc abc {
+            ;
+            ;
+        }
+    }
+}
+
+{
+    var test : integer
+    ;
+    proc xyz {
+        ;
+        test := 2
+    }
+}
+
+{
+    ;
+    proc a {
+        var test : integer;
+    }
+    put test
+}
+
+{
+
+   integer func return_val = {
+       ;
+       ;
+       10
+   }
+
+   integer func read_test = {
+       ;
+       ;
+       return_val
+   };
+ 
+   read_test
+}
